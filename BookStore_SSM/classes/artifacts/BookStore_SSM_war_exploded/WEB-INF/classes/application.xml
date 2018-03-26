@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+		<!-- <context:property-placeholder location="jdbc.properties"/> -->
+		<!-- 扫描注解驱动 -->
+		<context:component-scan base-package="com.etoak"/>
+		<!-- 数据源
+			1.配置数据源
+		 -->
+		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></property>
+		<property name="username" value="scott"></property>
+		<property name="password" value="tiger"></property>
+		</bean>
+		<!-- 2017-11-10 11:44:37 -->
+		<!-- 
+			使用什么持久层框架？ mybatis -->
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="dataSource"></property>
+			<!-- <property name="mapperLocations" value="com/etoak/mapper/*Mapper.xml"></property> -->
+			<property name="configLocation" value="classpath:mybatis.cfg.xml"></property>
+			
+		</bean>
+			<!-- 扫描接口 mybatis实例化接口  为了让接口mapper和mapper.xml一一对应起来好去解析-->
+		<bean  class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+			<property name="basePackage" value="com.etoak.dao"></property>
+			<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		</bean>
+		<!-- 配置事务管理器 -->
+		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource"></property>
+		</bean>
+		<tx:annotation-driven transaction-manager="transactionManager"/>
+	</beans>	

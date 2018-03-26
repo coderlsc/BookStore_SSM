@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="jdbc.properties"></properties>
+	<settings>
+		<setting name="logImpl" value="LOG4J"></setting>
+	</settings>
+	<!-- 注册别名 -->
+	<typeAliases>
+		<typeAlias type="com.etoak.bean.Book" alias="book"></typeAlias>
+		<typeAlias type="com.etoak.bean.BookPic" alias="pic"></typeAlias>
+		<typeAlias type="com.etoak.bean.Category" alias="cate"></typeAlias>
+	</typeAliases>
+		<!-- <plugins>
+			<plugin interceptor="com.github.pagehelper.PageHelper">
+				<property name="dialect" value="oracle"/>	
+			</plugin>
+		</plugins> -->
+	<!-- 这里就不用 在这里设置数据源信息了 在application设置就行了 因为要用到sqlSessionFactory会话管理器 -->
+	<!-- <environments default="oracle">
+		<environment id="oracle">
+			<transactionManager type="JDBC"></transactionManager>
+			<dataSource type="beanOLED">
+				<property name="driver" value="${jdbc.driverClassName}"/>
+				<property name="url" value="${jdbc.url}"></property>
+				<property name="username" value="${jdbc.userName}"></property>
+				<property name="password" value="${jdbc.passWord}"></property>
+			</dataSource>
+		</environment>
+	</environments> -->
+	<mappers>
+		<mapper resource="com/etoak/bean/BookMapper.xml"></mapper>
+		<mapper resource="com/etoak/bean/BookPicMapper.xml"></mapper>
+		<mapper resource="com/etoak/bean/CategoryMapper.xml"></mapper>
+		<mapper resource="com/etoak/bean/Book_AdminMapper.xml"></mapper>
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
